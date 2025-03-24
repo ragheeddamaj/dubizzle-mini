@@ -6,21 +6,11 @@ const MONGODB_DB = process.env.MONGODB_DB || "classifind"
 let cachedClient: MongoClient | null = null
 let cachedDb: Db | null = null
 
-// Check if we're in a build/static generation context
-const isBuildTime =
-  process.env.NODE_ENV === "production" && process.env.VERCEL_ENV === "production" && typeof window === "undefined"
-
-  console.log("ragheed",process.env.NODE_ENV ,  process.env.VERCEL_ENV, typeof window);
 export async function connectToDatabase() {
-  console.log("connectToDatabase called, build time?", isBuildTime)
+  console.log("connectToDatabase called")
   console.log("MONGODB_URI:", MONGODB_URI.replace(/mongodb\+srv:\/\/([^:]+):[^@]+@/, "mongodb+srv://$1:****@"))
   console.log("MONGODB_DB:", MONGODB_DB)
-
-  // If we're in a build context, return a mock DB
-  if (isBuildTime) {
-    console.warn("Build-time DB access detected, using mock database")
-    return getMockDb()
-  }
+  console.log("VERCEL_ENV:", process.env.VERCEL_ENV)
 
   // If we have cached values, use them
   if (cachedClient && cachedDb) {
