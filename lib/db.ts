@@ -10,6 +10,7 @@ let cachedDb: Db | null = null
 const isBuildTime =
   process.env.NODE_ENV === "production" && process.env.VERCEL_ENV === "production" && typeof window === "undefined"
 
+  console.log("ragheed",process.env.NODE_ENV ,  process.env.VERCEL_ENV, typeof window);
 export async function connectToDatabase() {
   console.log("connectToDatabase called, build time?", isBuildTime)
   console.log("MONGODB_URI:", MONGODB_URI.replace(/mongodb\+srv:\/\/([^:]+):[^@]+@/, "mongodb+srv://$1:****@"))
