@@ -8,7 +8,7 @@ import { AuthProvider } from "@/context/auth-context"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "ClassiFind - Classified Ads Platform",
+  title: "Dubizzle mini - Classified Ads Platform",
   description: "A modern classified ads platform with moderation",
 }
 

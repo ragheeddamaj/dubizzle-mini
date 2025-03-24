@@ -34,8 +34,8 @@ export default function Navbar() {
           {/* Logo and desktop navigation */}
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="text-xl font-bold text-indigo-600">
-                ClassiFind
+              <Link href="/" className="text-xl font-bold text-red-600">
+              Dubizzle mini
               </Link>
             </div>
 

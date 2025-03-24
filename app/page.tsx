@@ -17,7 +17,7 @@ export default function Home() {
               Find what you need, sell what you don't
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              ClassiFind connects buyers and sellers in your local community. Browse thousands of listings or create
+            Dubizzle mini connects buyers and sellers in your local community. Browse thousands of listings or create
               your own ad today.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
@@ -44,7 +44,7 @@ export default function Home() {
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8 pb-24">
         <div className="mx-auto max-w-2xl lg:text-center">
-          <h2 className="text-base font-semibold leading-7 text-indigo-600">ClassiFind</h2>
+          <h2 className="text-base font-semibold leading-7 text-red-600">Dubizzle mini</h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Everything you need to buy and sell locally
           </p>
