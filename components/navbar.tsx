@@ -18,7 +18,7 @@ export default function Navbar() {
     ...(user && user.userType !== "moderator" ? [{ name: "Create Ad", href: "/ads/create" }] : []),
     ...(user
       ? [
-          { name: "My Ads", href: "/ads/my-ads" },
+        ...(user.userType !== "moderator" ? [{ name: "My Ads", href: "/ads/my-ads" }] : []),
           ...(user.userType === "moderator" ? [{ name: "Moderation", href: "/moderation" }] : []),
         ]
       : []),
