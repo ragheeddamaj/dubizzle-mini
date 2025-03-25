@@ -11,13 +11,13 @@ export default function Navbar() {
   const { user, logout } = useAuth()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  // Navigation items
+  // Navigation items - conditionally include Create Ad link only for regular users
   const navigation = [
     { name: "Home", href: "/" },
     { name: "Browse", href: "/browse" },
+    ...(user && user.userType !== "moderator" ? [{ name: "Create Ad", href: "/ads/create" }] : []),
     ...(user
       ? [
-          { name: "Create Ad", href: "/ads/create" },
           { name: "My Ads", href: "/ads/my-ads" },
           ...(user.userType === "moderator" ? [{ name: "Moderation", href: "/moderation" }] : []),
         ]
@@ -34,7 +34,7 @@ export default function Navbar() {
           {/* Logo and desktop navigation */}
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="text-xl font-bold text-red-600">
+            <Link href="/" className="text-xl font-bold text-red-600">
               Dubizzle mini
               </Link>
             </div>
@@ -61,7 +61,14 @@ export default function Navbar() {
           <div className="hidden sm:flex sm:items-center sm:ml-6">
             {user ? (
               <div className="relative ml-3 flex items-center">
-                <span className="text-sm text-gray-700 mr-4">Hello, {user.fullName}</span>
+                <span className="text-sm text-gray-700 mr-4">
+                  Hello, {user.fullName}
+                  {user.userType === "moderator" && (
+                    <span className="ml-1 px-2 py-0.5 text-xs bg-purple-100 text-purple-800 rounded-full">
+                      Moderator
+                    </span>
+                  )}
+                </span>
                 <button
                   onClick={logout}
                   className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
@@ -128,7 +135,14 @@ export default function Navbar() {
           <div className="pt-4 pb-3 border-t border-gray-200">
             {user ? (
               <div className="px-2 space-y-1">
-                <div className="px-3 py-2 text-base font-medium text-gray-700">Hello, {user.fullName}</div>
+                <div className="px-3 py-2 text-base font-medium text-gray-700">
+                  Hello, {user.fullName}
+                  {user.userType === "moderator" && (
+                    <span className="ml-1 px-2 py-0.5 text-xs bg-purple-100 text-purple-800 rounded-full">
+                      Moderator
+                    </span>
+                  )}
+                </div>
                 <button
                   onClick={() => {
                     logout()

@@ -47,6 +47,11 @@ export default function CreateAd() {
       return
     }
 
+    if (user.userType === "moderator") {
+      setError("Moderators cannot create ads")
+      return
+    }
+
     setLoading(true)
     setError("")
 
@@ -74,6 +79,26 @@ export default function CreateAd() {
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
           <div className="bg-white shadow rounded-lg p-6 text-center">
             <p>Please log in to create an ad.</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Restrict moderators from creating ads
+  if (user.userType === "moderator") {
+    return (
+      <div className="bg-white">
+        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          <div className="bg-white shadow rounded-lg p-6 text-center">
+            <h1 className="text-xl font-semibold mb-4">Access Restricted</h1>
+            <p className="mb-4">
+              As a moderator, you cannot create ads. This restriction is in place to maintain the integrity of the
+              moderation process.
+            </p>
+            <p className="text-gray-600">
+              Moderators are responsible for reviewing and approving ads, not creating them.
+            </p>
           </div>
         </div>
       </div>
