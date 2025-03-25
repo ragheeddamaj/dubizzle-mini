@@ -107,164 +107,188 @@ export default function EditAd({ params }: { params: { id: string } }) {
 
   if (!user) {
     return (
-      <div className="card text-center">
-        <p>Please log in to edit this ad.</p>
+      <div className="bg-white">
+        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          <div className="card text-center">
+            <p>Please log in to edit this ad.</p>
+          </div>
+        </div>
       </div>
     )
   }
 
   if (loading) {
-    return <div className="text-center py-8">Loading...</div>
+    return (
+      <div className="bg-white">
+        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          <div className="text-center py-8">Loading...</div>
+        </div>
+      </div>
+    )
   }
 
   if (error) {
-    return <div className="bg-red-100 text-red-700 p-4 rounded-md">{error}</div>
+    return (
+      <div className="bg-white">
+        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          <div className="bg-red-100 text-red-700 p-4 rounded-md">{error}</div>
+        </div>
+      </div>
+    )
   }
 
   if (!ad) {
-    return <div className="text-center py-8">Ad not found</div>
+    return (
+      <div className="bg-white">
+        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          <div className="text-center py-8">Ad not found</div>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="max-w-2xl mx-auto card">
-      <h1 className="text-2xl font-bold mb-6">Edit Ad</h1>
+    <div className="bg-white">
+      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+        <h1 className="text-2xl font-bold mb-6">Edit Ad</h1>
 
-      {error && <div className="bg-red-100 text-red-700 p-3 rounded-md mb-4">{error}</div>}
+        {error && <div className="bg-red-100 text-red-700 p-3 rounded-md mb-4">{error}</div>}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="title" className="form-label">
-            Title
-          </label>
-          <input
-            id="title"
-            name="title"
-            type="text"
-            required
-            className="form-input"
-            value={formData.title}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="description" className="form-label">
-            Description
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            rows={5}
-            required
-            className="form-input"
-            value={formData.description}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="city" className="form-label">
-              City
+            <label htmlFor="title" className="form-label">
+              Title
             </label>
             <input
-              id="city"
-              name="city"
+              id="title"
+              name="title"
               type="text"
               required
               className="form-input"
-              value={formData.city}
+              value={formData.title}
               onChange={handleChange}
             />
           </div>
 
           <div>
-            <label htmlFor="country" className="form-label">
-              Country
+            <label htmlFor="description" className="form-label">
+              Description
             </label>
-            <input
-              id="country"
-              name="country"
-              type="text"
+            <textarea
+              id="description"
+              name="description"
+              rows={5}
               required
               className="form-input"
-              value={formData.country}
+              value={formData.description}
               onChange={handleChange}
             />
           </div>
-        </div>
 
-        <div>
-          <label htmlFor="price" className="form-label">
-            Price
-          </label>
-          <input
-            id="price"
-            name="price"
-            type="number"
-            min="0"
-            step="0.01"
-            required
-            className="form-input"
-            value={formData.price}
-            onChange={handleChange}
-          />
-        </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="city" className="form-label">
+                City
+              </label>
+              <input
+                id="city"
+                name="city"
+                type="text"
+                required
+                className="form-input"
+                value={formData.city}
+                onChange={handleChange}
+              />
+            </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="category" className="form-label">
-              Category
-            </label>
-            <select
-              id="category"
-              name="category"
-              required
-              className="form-input"
-              value={formData.category}
-              onChange={handleChange}
-            >
-              <option value="">Select a category</option>
-              {categories.map((category) => (
-                <option key={category.name} value={category.name}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
+            <div>
+              <label htmlFor="country" className="form-label">
+                Country
+              </label>
+              <input
+                id="country"
+                name="country"
+                type="text"
+                required
+                className="form-input"
+                value={formData.country}
+                onChange={handleChange}
+              />
+            </div>
           </div>
 
           <div>
-            <label htmlFor="subcategory" className="form-label">
-              Subcategory
+            <label htmlFor="price" className="form-label">
+              Price
             </label>
-            <select
-              id="subcategory"
-              name="subcategory"
+            <input
+              id="price"
+              name="price"
+              type="number"
+              min="0"
+              step="0.01"
               required
               className="form-input"
-              value={formData.subcategory}
+              value={formData.price}
               onChange={handleChange}
-              disabled={!formData.category}
-            >
-              <option value="">Select a subcategory</option>
-              {subcategories.map((subcategory) => (
-                <option key={subcategory} value={subcategory}>
-                  {subcategory}
-                </option>
-              ))}
-            </select>
+            />
           </div>
-        </div>
 
-        <div className="pt-4">
-          <button type="submit" className="btn-primary w-full" disabled={submitting}>
-            {submitting ? "Updating..." : "Update Ad"}
-          </button>
-        </div>
-      </form>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="category" className="form-label">
+                Category
+              </label>
+              <select
+                id="category"
+                name="category"
+                required
+                className="form-input"
+                value={formData.category}
+                onChange={handleChange}
+              >
+                <option value="">Select a category</option>
+                {categories.map((category) => (
+                  <option key={category.name} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-      <div className="mt-4 text-sm text-gray-500">
-        <p>Note: Your updated ad will need to be reviewed by a moderator before it appears publicly.</p>
+            <div>
+              <label htmlFor="subcategory" className="form-label">
+                Subcategory
+              </label>
+              <select
+                id="subcategory"
+                name="subcategory"
+                required
+                className="form-input"
+                value={formData.subcategory}
+                onChange={handleChange}
+                disabled={!formData.category}
+              >
+                <option value="">Select a subcategory</option>
+                {subcategories.map((subcategory) => (
+                  <option key={subcategory} value={subcategory}>
+                    {subcategory}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="pt-4">
+            <button type="submit" className="btn-primary w-full" disabled={submitting}>
+              {submitting ? "Updating..." : "Update Ad"}
+            </button>
+          </div>
+        </form>
+
+        <div className="mt-4 text-sm text-gray-500">
+          <p>Note: Your updated ad will need to be reviewed by a moderator before it appears publicly.</p>
+        </div>
       </div>
     </div>
   )
