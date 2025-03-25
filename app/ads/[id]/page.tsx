@@ -1,36 +1,68 @@
-import { notFound } from "next/navigation"
+"use client"
+
+import { useEffect, useState } from "react"
+import { notFound, useRouter } from "next/navigation"
 import Link from "next/link"
-import { connectToDatabase } from "@/lib/db"
-import { ObjectId } from "mongodb"
+import { useAuth } from "@/context/auth-context"
+import { getAdById } from "@/lib/ads"
 import AdStatusBadge from "@/components/ad-status-badge"
 
-// Make the page dynamic to avoid prerendering at build time
-export const dynamic = "force-dynamic"
+export default function AdDetails({ params }: { params: { id: string } }) {
+  const router = useRouter()
+  const { user } = useAuth()
+  const [ad, setAd] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
+  
+  // Check if the current user is the owner of the ad
+  const isOwner = user && ad && user.id === ad.userId
 
-async function getAdById(id: string) {
-  try {
-    const { db } = await connectToDatabase()
-    const ad = await db.collection("ads").findOne({ _id: new ObjectId(id) })
-
-    if (!ad) {
-      return null
+  useEffect(() => {
+    const fetchAd = async () => {
+      try {
+        const adData = await getAdById(params.id)
+        
+        if (!adData) {
+          router.push("/404")
+          return
+        }
+        
+        setAd(adData)
+      } catch (err: any) {
+        setError(err.message || "Failed to load ad")
+      } finally {
+        setLoading(false)
+      }
     }
+    
+    fetchAd()
+  }, [params.id, router])
 
-    return {
-      ...ad,
-      _id: ad._id.toString(),
-    }
-  } catch (error) {
-    console.error("Error fetching ad:", error)
-    return null
+  if (loading) {
+    return (
+      <div className="bg-white">
+        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          <div className="text-center py-8">
+            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-indigo-600 border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
+            <p className="mt-4 text-gray-500">Loading ad details...</p>
+          </div>
+        </div>
+      </div>
+    )
   }
-}
 
-export default async function AdDetails({ params }: { params: { id: string } }) {
-  const ad = await getAdById(params.id)
+  if (error) {
+    return (
+      <div className="bg-white">
+        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          <div className="bg-red-100 text-red-700 p-4 rounded-md">{error}</div>
+        </div>
+      </div>
+    )
+  }
 
   if (!ad) {
-    notFound()
+    return notFound()
   }
 
   return (
@@ -62,8 +94,8 @@ export default async function AdDetails({ params }: { params: { id: string } }) 
                   <p className="text-gray-700 whitespace-pre-line">{ad.description}</p>
                 </div>
 
-                {/* Display moderator comment if available */}
-                {ad.moderatorComment && (
+                {/* Display moderator comment only if the current user is the owner of the ad */}
+                {isOwner && ad.moderatorComment && (
                   <div className="mb-6 p-4 bg-blue-50 rounded-md border border-blue-200">
                     <h2 className="text-sm font-medium text-blue-800 mb-1">Moderator Comment:</h2>
                     <p className="text-blue-700">{ad.moderatorComment}</p>
@@ -99,13 +131,15 @@ export default async function AdDetails({ params }: { params: { id: string } }) 
                       Contact Seller
                     </button>
 
-                    {/* This would be conditionally rendered based on user ownership */}
-                    <Link
-                      href={`/ads/${ad._id}/edit`}
-                      className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-center"
-                    >
-                      Edit Ad
-                    </Link>
+                    {/* Only show Edit button if the current user is the owner */}
+                    {isOwner && (
+                      <Link
+                        href={`/ads/${ad._id}/edit`}
+                        className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-center"
+                      >
+                        Edit Ad
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>
